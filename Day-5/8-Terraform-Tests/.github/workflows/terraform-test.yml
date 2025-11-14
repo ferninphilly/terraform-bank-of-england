@@ -1,0 +1,65 @@
+name: Terraform Tests
+
+on:
+  pull_request:
+    paths:
+      - 'Day-5/8-Terraform-Tests/**'
+  push:
+    branches:
+      - main
+    paths:
+      - 'Day-5/8-Terraform-Tests/**'
+  workflow_dispatch:
+
+env:
+  TF_VERSION: "1.6.0"
+  WORKING_DIR: ./Day-5/8-Terraform-Tests
+
+jobs:
+  test:
+    name: Run Terraform Tests
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{ env.WORKING_DIR }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: ${{ env.TF_VERSION }}
+          terraform_wrapper: false
+
+      - name: Configure Azure credentials
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Terraform Init
+        run: terraform init -backend=false
+
+      - name: Run Terraform Tests
+        id: test
+        run: terraform test -verbose
+        continue-on-error: true
+
+      - name: Comment PR
+        if: github.event_name == 'pull_request' && steps.test.outcome != 'success'
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '❌ Terraform tests failed. Please check the workflow logs.'
+            })
+
+      - name: Fail if tests fail
+        if: steps.test.outcome != 'success'
+        run: exit 1
+

@@ -1,2 +1,5 @@
 .terraform/*
 .terraform*
+
+# Answer keys for instructors
+answer_key/

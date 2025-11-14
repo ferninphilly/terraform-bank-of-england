@@ -1,7 +1,7 @@
 #!/bin/bash
 
 RESOURCE_GROUP_NAME=tfstate-day04
-STORAGE_ACCOUNT_NAME=day04$RANDOM
+STORAGE_ACCOUNT_NAME=day0412345
 CONTAINER_NAME=tfstate
 
 # Create resource group

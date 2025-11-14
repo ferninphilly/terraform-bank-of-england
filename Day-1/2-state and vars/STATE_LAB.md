@@ -135,7 +135,3 @@ Your local `terraform.tfstate` file is uploaded to the Azure Blob Storage contai
     terraform state list
     # Output should list your resources (e.g., azurerm_resource_group.rg_lesson)
     ```
-
----
-
-The next important module in your curriculum should focus on managing secrets and references. Would you like to cover **Azure Key Vault integration** next?

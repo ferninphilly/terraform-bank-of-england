@@ -70,3 +70,5 @@ If you haven't just run `chmod +x ./set_vars.sh` and then, to set the env vars, 
 Check that the env vars have been set (in bash) by putting in `echo $ARM_CLIENT_ID`.
 
 If you get a return value then congratulations! You are ready to use terraform!!
+
+You can also add these to a .env file!

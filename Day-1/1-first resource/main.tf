@@ -1,18 +1,23 @@
 terraform {
   required_providers {
     azurerm = {
-        source = "hashicorp/azurerm"
-        version = "~> 4.8.0"
+      source  = "hashicorp/azurerm"
+      version = "~> 4.8.0"
     }
   }
   required_version = ">=1.5.7"
 }
 
 provider "azurerm" {
-    features {
-      
-    }
-  
+  # subscription_id is required. Ensure one of the following is set:
+  # 1. Environment variable: ARM_SUBSCRIPTION_ID (recommended)
+  #    Run: export ARM_SUBSCRIPTION_ID=$(az account show --query id -o tsv)
+  # 2. Pass as variable: terraform plan -var="subscription_id=$(az account show --query id -o tsv)"
+  subscription_id = var.subscription_id != "" ? var.subscription_id : null
+  features {
+
+  }
+
 }
 
 resource "azurerm_resource_group" "example" {
@@ -21,7 +26,7 @@ resource "azurerm_resource_group" "example" {
 }
 
 resource "azurerm_storage_account" "example" {
- 
+
   name                     = "boetest"
   resource_group_name      = azurerm_resource_group.example.name
   location                 = azurerm_resource_group.example.location # implicit dependency

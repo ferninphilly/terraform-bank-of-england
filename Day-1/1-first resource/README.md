@@ -1,4 +1,4 @@
-# Task for Day03
+# Task for Day01
 
 - Get yourself familiarized with Terraform documentation
   

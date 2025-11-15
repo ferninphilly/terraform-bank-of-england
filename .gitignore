@@ -1,5 +1,5 @@
 .terraform/*
 .terraform*
-
+sp_output.json
 # Answer keys for instructors
 answer_key/

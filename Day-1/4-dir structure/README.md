@@ -1,6 +1,6 @@
-## Task for Day06
+## Task for part 4
 
-### Using the files from previous task(day05), divide the entire folder structure into seperate files such as
+### Using the files from previous task(step-3), divide the entire folder structure into seperate files such as
 - backend.tf
 - provider.tf
 - resource-group.tf

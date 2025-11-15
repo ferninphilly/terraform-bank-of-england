@@ -1,7 +1,7 @@
 # Resource Group
 resource "azurerm_resource_group" "app_rg" {
   name     = "provisioner-demo-rg"
-  location = "East US"
+  location = "Western Europe"
 }
 
 # Virtual Network

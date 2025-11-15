@@ -5,13 +5,7 @@ terraform {
         version = "~> 4.8.0"
     }
   }
-  backend "azurerm" {
-    resource_group_name  = "tfstate-day04"  # Can be passed via `-backend-config=`"resource_group_name=<resource group name>"` in the `init` command.
-    storage_account_name = "day0417691"                      # Can be passed via `-backend-config=`"storage_account_name=<storage account name>"` in the `init` command.
-    container_name       = "tfstate"                       # Can be passed via `-backend-config=`"container_name=<container name>"` in the `init` command.
-    key                  = "dev.terraform.tfstate"        # Can be passed via `-backend-config=`"key=<blob key name>"` in the `init` command.
-  }
-  required_version = ">=1.9.0"
+  required_version = ">=1.5.7"
 }
 
 provider "azurerm" {
@@ -47,11 +41,17 @@ resource "azurerm_storage_account" "example" {
   account_tier             = "Standard"
   account_replication_type = "LRS"
 
-  tags = {
-    environment = local.common_tags.environment
-  }
+  tags = merge(local.common_tags, {
+    environment = var.environment  # This will show variable precedence
+  })
 }
 
 output "storage_account_name" {
-  value = azurerm_storage_account.example.name
+  value       = azurerm_storage_account.example.name
+  description = "The name of the storage account"
+}
+
+output "environment_value" {
+  value       = var.environment
+  description = "Shows the resolved value of the environment variable (for testing precedence)"
 }

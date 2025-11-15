@@ -9,8 +9,6 @@ terraform {
   }
 
   backend "azurerm" {
-    # Configure your backend here
-    # Use -backend-config flags or environment variables for sensitive values
     resource_group_name  = "tfstate-rg"
     storage_account_name = "tfstatestorage"
     container_name       = "tfstate"

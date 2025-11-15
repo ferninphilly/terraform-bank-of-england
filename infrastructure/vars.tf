@@ -9,7 +9,7 @@ variable "resource_group_name" {
 variable "location" {
   description = "The Azure region to deploy resources to."
   type        = string
-  default     = "East US"
+  default     = "Western Europe"
 }
 
 variable "vm_size" {

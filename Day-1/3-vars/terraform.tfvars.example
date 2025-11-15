@@ -1,0 +1,14 @@
+# Example terraform.tfvars file
+# Copy this file to terraform.tfvars and modify as needed
+# terraform.tfvars is automatically loaded by Terraform
+
+environment = "demo"
+
+# Note: This file demonstrates how terraform.tfvars overrides default values
+# The default value in variables.tf is "staging", but this file sets it to "demo"
+# To test variable precedence, try:
+# 1. Remove this file and run terraform plan (uses default "staging")
+# 2. Keep this file and run terraform plan (uses "demo")
+# 3. Set TF_VAR_environment="production" and run terraform plan (uses "production")
+# 4. Run terraform plan -var="environment=development" (uses "development")
+

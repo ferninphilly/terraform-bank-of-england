@@ -8,7 +8,7 @@ You'll create a scalable web application infrastructure in Azure using Terraform
 
 ### Base Infrastructure
 1. Create a resource group in one of these regions:
-   - East US
+   - Western Europe
    - West Europe
    - Southeast Asia
 Also create the validation rule that restrict other regions

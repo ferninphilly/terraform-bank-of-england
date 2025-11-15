@@ -4,6 +4,9 @@ This guide explains the fundamental three-step workflow of Terraform, which allo
 
 ---
 
+### Before we start:
+Run `terraform -install-autocomplete`. You'll thank me later :-)
+
 ### The Terraform Workflow: I-P-A
 
 The Terraform workflow is non-destructive and requires explicit confirmation before any changes are made. This process ensures safety, repeatability, and transparency.

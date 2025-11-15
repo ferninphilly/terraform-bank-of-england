@@ -1,11 +1,9 @@
 terraform {
   backend "azurerm" {
-    # These values should be configured via environment variables or command line when initializing
-    # resource_group_name  = "tfstate-rg"
-    # storage_account_name = "tfstate<unique_suffix>"
-    # container_name       = "tfstate"
-    # key                  = "terraform.tfstate"
-    # use_azuread_auth     = true
+    resource_group_name  = "tfstate-rg"
+    storage_account_name = "tfstatestorage"
+    container_name       = "tfstate"
+    key                  = "docker-deployment.terraform.tfstate"
   }
 }
 

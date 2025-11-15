@@ -20,7 +20,7 @@ variable "is_delete" {
 variable "allowed_locations" {
     type = list(string)
     description = "list of allowed locations"
-    default = [ "West Europe", "North Europe" , "East US" ]
+    default = [ "West Europe", "North Europe" , "Western Europe" ]
   
 }
 

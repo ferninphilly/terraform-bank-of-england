@@ -2,6 +2,17 @@
 
 This module is essential for security and team collaboration. It guides you through migrating your local state file (`terraform.tfstate`) to a secure Azure Blob Storage container.
 
+### 📋 Learning Options
+
+**Option 1: Step-by-Step Tutorial (This File)**
+- Follow the detailed instructions below for guided learning
+- Perfect for beginners or first-time setup
+
+**Option 2: Challenge-Based Exercises**
+- **👉 See [EXERCISE.md](./EXERCISE.md) for challenge-based exercises**
+- Figure out the implementation yourself
+- Great for self-directed learning and testing your understanding
+
 ### Prerequisites
 
 1.  **Project Files:** You should have your `main.tf`, `variables.tf`, and `outputs.tf` files ready from the VM deployment module.
@@ -135,3 +146,16 @@ Your local `terraform.tfstate` file is uploaded to the Azure Blob Storage contai
     terraform state list
     # Output should list your resources (e.g., azurerm_resource_group.rg_lesson)
     ```
+
+3. Go to the U/I and do a search for `containers`. You should see the container. Navigate to the correct spot for the tfstate. Congrats! You now have your terraform state in a shared directory!
+
+---
+
+## 🎯 Additional Challenges
+
+If you want to test your understanding further, try the challenge-based exercises in [EXERCISE.md](./EXERCISE.md). These exercises will help you:
+- Deepen your understanding of state management
+- Troubleshoot common issues
+- Implement best practices
+- Handle multiple environments
+- Understand security considerations

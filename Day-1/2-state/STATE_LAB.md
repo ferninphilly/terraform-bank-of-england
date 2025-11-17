@@ -42,10 +42,10 @@ While you can put the backend configuration in `main.tf`, it is best practice to
     terraform {
       backend "azurerm" {
         # The Resource Group where the storage account resides
-        resource_group_name  = "tfstate-day04" 
+        resource_group_name  = "<your resource_group_name>" 
         
         # The globally unique name of your storage account
-        storage_account_name = "day0412345" 
+        storage_account_name = "<your storage_account_name>" 
         
         # The name of the container inside the storage account
         container_name       = "tfstate"     

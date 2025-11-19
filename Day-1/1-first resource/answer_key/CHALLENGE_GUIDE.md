@@ -324,6 +324,56 @@ After applying, Terraform will display your outputs. You can also view them anyt
 terraform output
 ```
 
+### Step 11: Connect to Your VM via SSH
+
+Once your VM is created, you can connect to it using SSH.
+
+#### Default Username
+
+The default username is **`azureuser`** (as defined in the `admin_username` variable).
+
+#### Getting the VM's IP Address
+
+The current configuration creates a VM with only a **private IP address**. To get the private IP:
+
+```bash
+terraform output vm_public_ip
+```
+
+**Note:** This output actually shows the private IP address. The name is a bit misleading in the current setup.
+
+#### SSH Command
+
+From a Linux VM or your local machine, use this command to connect:
+
+```bash
+ssh -i ~/.ssh/id_rsa azureuser@<VM_PRIVATE_IP>
+```
+
+Replace `<VM_PRIVATE_IP>` with the IP address from the output.
+
+**Example:**
+```bash
+# Get the IP address
+VM_IP=$(terraform output -raw vm_public_ip)
+
+# Connect via SSH
+ssh -i ~/.ssh/id_rsa azureuser@$VM_IP
+```
+
+#### Important Notes
+
+1. **Private IP Access:** Since the VM only has a private IP, you can only SSH from:
+   - Another VM in the same Azure Virtual Network
+   - A machine connected via VPN to the Azure network
+   - A machine using Azure Bastion (if configured)
+
+2. **Public IP Access:** To SSH from the internet, you'll need to complete **Challenge 4** (Add a Public IP) below.
+
+3. **SSH Key:** Make sure you're using the **private key** that corresponds to the public key you provided in `terraform.tfvars`. The default location is `~/.ssh/id_rsa`.
+
+4. **First Connection:** On first connection, you'll be asked to verify the host's authenticity. Type `yes` to continue.
+
 ## Understanding Resource Dependencies
 
 Notice how resources reference each other:
@@ -410,6 +460,12 @@ Add a public IP address so you can SSH into the VM from the internet:
 3. Update outputs to show the public IP
 
 **Hint:** Look up `azurerm_public_ip` resource and how to associate it with a network interface.
+
+**After completing this challenge**, you'll be able to SSH from anywhere using:
+```bash
+ssh -i ~/.ssh/id_rsa azureuser@<VM_PUBLIC_IP>
+```
+Where `<VM_PUBLIC_IP>` is the public IP address from your Terraform outputs.
 
 ---
 

@@ -140,6 +140,45 @@ output "resource_group_location" {
    # Result: environment = "development" (highest precedence)
    ```
 
+### Exercise 5: Use Ternary Operators ✅
+
+**Solution:** The provider configuration demonstrates ternary operators, but you can also use them in resources. Here's how to implement the storage tier challenge:
+
+**Step 1:** Add a variable for storage tier (optional):
+
+```hcl
+# In variables.tf
+variable "storage_tier" {
+  type        = string
+  description = "Storage account tier (Standard or Premium)"
+  default     = ""
+}
+```
+
+**Step 2:** Use ternary operator in the storage account:
+
+```hcl
+# In main.tf
+resource "azurerm_storage_account" "example" {
+  name                     = "${local.resource_prefix}storage"
+  resource_group_name      = azurerm_resource_group.example.name
+  location                 = azurerm_resource_group.example.location
+  account_tier             = var.storage_tier != "" ? var.storage_tier : "Standard"
+  account_replication_type = var.environment == "production" ? "ZRS" : "LRS"
+  # ... rest of configuration
+}
+```
+
+**How it works:**
+- `account_tier`: If `var.storage_tier` is provided (not empty), use it; otherwise default to "Standard"
+- `account_replication_type`: If environment is "production", use "ZRS"; otherwise use "LRS"
+
+**Testing:**
+1. Without setting `storage_tier`: Uses "Standard" (default)
+2. With `storage_tier = "Premium"` in terraform.tfvars: Uses "Premium"
+3. With `environment = "production"`: Uses "ZRS" replication
+4. With `environment = "staging"`: Uses "LRS" replication
+
 ## 🔍 Key Concepts Demonstrated
 
 ### Variable Precedence Order
@@ -174,6 +213,48 @@ This results in:
   stage       = "alpha"
 }
 ```
+
+### Ternary Operators
+
+Terraform supports **ternary operators** (conditional expressions) for setting values based on conditions. This is demonstrated in the provider configuration:
+
+```hcl
+provider "azurerm" {
+  subscription_id = var.subscription_id != "" ? var.subscription_id : null
+  features {}
+}
+```
+
+**How it works:**
+- **Syntax:** `condition ? true_value : false_value`
+- **Condition:** `var.subscription_id != ""` - checks if the variable is not empty
+- **If true:** Use `var.subscription_id` (the provided value)
+- **If false:** Use `null` (which allows Terraform to use the environment variable `ARM_SUBSCRIPTION_ID` instead)
+
+**Why use this?**
+This pattern allows flexible authentication:
+1. **Option 1:** Set `subscription_id` variable directly
+2. **Option 2:** Leave it empty and use `ARM_SUBSCRIPTION_ID` environment variable
+3. **Option 3:** Use Azure CLI authentication (no subscription_id needed)
+
+**Other Ternary Operator Examples:**
+
+```hcl
+# Set a default value if variable is empty
+name = var.name != "" ? var.name : "default-name"
+
+# Choose between two locations
+location = var.environment == "production" ? "East US" : "West Europe"
+
+# Conditional resource naming
+resource_name = var.use_prefix ? "${var.prefix}-resource" : "resource"
+```
+
+**Key Points:**
+- Ternary operators evaluate the condition first
+- Both the true and false values must be of compatible types
+- Useful for providing fallback values or conditional logic
+- Can be nested for more complex conditions (though `try()` or `coalesce()` might be cleaner)
 
 ## 🚀 Running the Solution
 

@@ -22,6 +22,31 @@ The TASK.md file contains:
 - Summary table to track your progress
 - Common mistakes to avoid
 
+### 🔀 Ternary Operators
+
+Terraform supports conditional expressions using ternary operators. This allows you to set values based on conditions.
+
+**Syntax:**
+```hcl
+condition ? true_value : false_value
+```
+
+**Example:**
+```hcl
+subscription_id = var.subscription_id != "" ? var.subscription_id : null
+```
+
+This means:
+- **If** `var.subscription_id` is not empty (`!= ""`), **then** use `var.subscription_id`
+- **Otherwise**, use `null`
+
+**Common Use Cases:**
+- Providing default values when a variable is empty
+- Conditional resource creation
+- Environment-specific configurations
+
+**See the answer key for a practical example of ternary operators in use.**
+
 ### Files in this directory:
 
 - `main.tf` - Main Terraform configuration with variables, locals, and resources

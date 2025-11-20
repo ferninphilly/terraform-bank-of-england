@@ -257,6 +257,71 @@ terraform output storage_account_name
 
 ---
 
+## Part 6: Understanding Ternary Operators
+
+### What are Ternary Operators?
+
+Ternary operators (also called conditional expressions) allow you to set a value based on a condition. Think of them as "if-then-else" statements in a single line.
+
+### Syntax
+
+```hcl
+condition ? true_value : false_value
+```
+
+**Breaking it down:**
+- `condition` - A boolean expression (true or false)
+- `?` - Separates the condition from the values
+- `true_value` - Used if condition is true
+- `:` - Separates true and false values
+- `false_value` - Used if condition is false
+
+### Simple Example
+
+```hcl
+name = var.name != "" ? var.name : "default-name"
+```
+
+**What this means:**
+- **If** `var.name` is not empty, **then** use `var.name`
+- **Otherwise**, use `"default-name"`
+
+### Real-World Example
+
+In the provider configuration, you might see:
+
+```hcl
+provider "azurerm" {
+  subscription_id = var.subscription_id != "" ? var.subscription_id : null
+  features {}
+}
+```
+
+**What this does:**
+- If `var.subscription_id` is provided (not empty), use it
+- Otherwise, use `null` (which allows Terraform to use environment variables or Azure CLI authentication)
+
+### More Examples
+
+```hcl
+# Choose location based on environment
+location = var.environment == "production" ? "East US" : "West Europe"
+
+# Set storage tier based on environment
+account_tier = var.environment == "production" ? "Premium" : "Standard"
+
+# Conditional naming
+resource_name = var.use_prefix ? "${var.prefix}-resource" : "resource"
+```
+
+**Key Points:**
+- Both values (true and false) must be compatible types
+- The condition is evaluated first
+- Useful for providing fallback values
+- Can make your code more flexible and dynamic
+
+---
+
 ## 🎯 Practice Exercises
 
 ### Exercise 1: Add a New Variable
@@ -283,6 +348,26 @@ terraform output storage_account_name
 4. Run `terraform plan` and see which value wins
 5. Override it with a command-line flag
 
+### Exercise 5: Use Ternary Operators
+
+**Challenge:** Make your storage account tier conditional based on the environment.
+
+1. Add a variable called `storage_tier` with no default value (or default to empty string)
+2. In your storage account resource, use a ternary operator to:
+   - Use `var.storage_tier` if it's provided (not empty)
+   - Otherwise, use `"Standard"` as the default
+3. Test it by:
+   - Running `terraform plan` without setting the variable (should use "Standard")
+   - Creating a `terraform.tfvars` with `storage_tier = "Premium"` and running plan again
+
+**Hint:** The syntax is: `account_tier = var.storage_tier != "" ? var.storage_tier : "Standard"`
+
+**Bonus Challenge:** 
+- Add another ternary operator to set the `account_replication_type`:
+  - Use `"ZRS"` (Zone Redundant Storage) for production environment
+  - Use `"LRS"` (Locally Redundant Storage) for all other environments
+- Hint: Check if `var.environment == "production"`
+
 ---
 
 ## 📝 Quick Reference
@@ -297,6 +382,7 @@ terraform output storage_account_name
 | **Set via tfvars** | Create `terraform.tfvars` | `environment = "demo"` |
 | **Set via CLI** | `-var="name=value"` | `terraform plan -var="environment=prod"` |
 | **Set via Env Var** | `export TF_VAR_name=value` | `export TF_VAR_environment=prod` |
+| **Ternary Operator** | `condition ? true_val : false_val` | `name = var.name != "" ? var.name : "default"` |
 
 ---
 
@@ -312,6 +398,7 @@ Before moving on, make sure you can:
 - [ ] Explain which method has highest precedence
 - [ ] Create and use a local value
 - [ ] Create an output and view it
+- [ ] Use a ternary operator to set a conditional value
 
 ---
 
@@ -321,7 +408,8 @@ Before moving on, make sure you can:
 2. **Locals** = Internal values computed within your config
 3. **Outputs** = Values displayed after Terraform runs
 4. **Precedence** = Command-line > Environment > tfvars > Default
-5. **Best Practice** = Use defaults for sensible defaults, tfvars for different environments
+5. **Ternary Operators** = Conditional expressions for dynamic values (`condition ? true : false`)
+6. **Best Practice** = Use defaults for sensible defaults, tfvars for different environments
 
 ---
 

@@ -18,7 +18,7 @@ You must log in to the Azure CLI to create the necessary credentials and interac
 1.  **Open your terminal or command prompt.**
 2.  **Run the Azure login command:**
     ```bash
-    az login
+    az login --use-device-code
     ```
 3.  Follow the browser prompts to sign in.
 4.  If you have multiple subscriptions, set the one you plan to use:

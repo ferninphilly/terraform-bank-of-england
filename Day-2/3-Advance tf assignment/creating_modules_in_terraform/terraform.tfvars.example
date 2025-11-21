@@ -1,0 +1,38 @@
+# Root module variables
+resource_group_name = "modules-demo-rg"
+location            = "eastus"
+name_prefix         = "web"
+environment         = "dev"
+
+# VM Configuration
+vm_size        = ""  # Leave empty to use environment-based defaults
+admin_username = "azureuser"
+
+# Network Configuration
+vnet_address_space      = ["10.0.0.0/16"]
+subnet_address_prefixes = ["10.0.1.0/24"]
+
+# Ansible Configuration
+enable_ansible        = true
+ansible_playbook_path = "ansible/playbook.yml"
+install_nginx        = true
+install_docker       = false
+
+# Alert Configuration
+enable_alerts          = true
+alert_email           = "admin@example.com"  # Set your email here
+cpu_threshold_percent = 80
+memory_threshold_percent = 85
+disk_threshold_percent = 90
+disk_read_threshold   = 1000
+disk_write_threshold  = 1000
+network_in_threshold  = 10737418240  # 10GB in bytes
+
+# Tags
+tags = {
+  Project     = "Terraform-Modules"
+  ManagedBy   = "Terraform"
+  Provisioner = "Ansible"
+  Environment = "dev"
+}
+

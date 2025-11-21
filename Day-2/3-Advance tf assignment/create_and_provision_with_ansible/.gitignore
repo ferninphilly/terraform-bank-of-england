@@ -1,0 +1,23 @@
+# Terraform files
+.terraform/
+*.tfstate
+*.tfstate.*
+.terraform.lock.hcl
+
+# SSH keys
+.ssh/
+*.pem
+*.key
+
+# Ansible
+*.retry
+.ansible/
+
+# Environment files
+*.tfvars
+!terraform.tfvars.example
+
+# OS files
+.DS_Store
+Thumbs.db
+

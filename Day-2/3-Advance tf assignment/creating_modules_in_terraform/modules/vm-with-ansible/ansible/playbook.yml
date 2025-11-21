@@ -1,0 +1,108 @@
+---
+- name: Provision Azure VM with Ansible
+  hosts: all
+  become: yes
+  gather_facts: yes
+
+  vars:
+    install_nginx: "{{ install_nginx | default(true) | bool }}"
+    install_docker: "{{ install_docker | default(false) | bool }}"
+
+  tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+
+    - name: Install basic packages
+      apt:
+        name:
+          - curl
+          - wget
+          - git
+          - unzip
+          - software-properties-common
+          - python3-pip
+        state: present
+
+    - name: Install nginx (conditional)
+      apt:
+        name: nginx
+        state: present
+      when: install_nginx | bool
+
+    - name: Start and enable nginx service
+      systemd:
+        name: nginx
+        state: started
+        enabled: yes
+      when: install_nginx | bool
+
+    - name: Create custom nginx index page
+      copy:
+        content: |
+          <!DOCTYPE html>
+          <html>
+          <head>
+            <title>Provisioned with Ansible</title>
+          </head>
+          <body>
+            <h1>Hello from Ansible!</h1>
+            <p>This VM was provisioned using Terraform and Ansible.</p>
+            <p>Environment: {{ ansible_hostname }}</p>
+            <p>Timestamp: {{ ansible_date_time.iso8601 }}</p>
+          </body>
+          </html>
+        dest: /var/www/html/index.html
+        mode: '0644'
+      when: install_nginx | bool
+
+    - name: Install Docker (conditional)
+      block:
+        - name: Add Docker GPG key
+          apt_key:
+            url: https://download.docker.com/linux/ubuntu/gpg
+            state: present
+
+        - name: Add Docker repository
+          apt_repository:
+            repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable"
+            state: present
+
+        - name: Install Docker
+          apt:
+            name:
+              - docker-ce
+              - docker-ce-cli
+              - containerd.io
+            state: present
+            update_cache: yes
+
+        - name: Add user to docker group
+          user:
+            name: "{{ ansible_user }}"
+            groups: docker
+            append: yes
+
+        - name: Start and enable Docker service
+          systemd:
+            name: docker
+            state: started
+            enabled: yes
+      when: install_docker | bool
+
+    - name: Create provisioned marker file
+      file:
+        path: /tmp/ansible_provisioned
+        state: touch
+        mode: '0644'
+
+    - name: Display provisioning summary
+      debug:
+        msg:
+          - "Provisioning completed successfully!"
+          - "Nginx installed: {{ install_nginx }}"
+          - "Docker installed: {{ install_docker }}"
+          - "Hostname: {{ ansible_hostname }}"
+          - "IP Address: {{ ansible_default_ipv4.address }}"
+

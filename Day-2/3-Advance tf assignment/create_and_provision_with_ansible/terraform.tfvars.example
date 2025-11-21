@@ -1,0 +1,16 @@
+environment          = "dev"
+location             = "eastus"
+resource_group_name  = "vm-ansible-rg"
+admin_username       = "azureuser"
+enable_ansible       = true
+ansible_playbook_path = "ansible/playbook.yml"
+install_nginx        = true
+install_docker       = false
+
+tags = {
+  Project     = "Terraform-Ansible"
+  ManagedBy   = "Terraform"
+  Provisioner = "Ansible"
+  Environment = "dev"
+}
+

@@ -5,16 +5,17 @@ Day 5 introduces intermediate Terraform concepts that will help you build produc
 
 ## Learning Path
 
-### 1. Modules and Inheritance
-**Directory**: `1-Modules-Inheritance/`
+### 1. GitHub Modules
+**Directory**: `Github-Modules/`
 
-Learn to create reusable, composable modules:
+Learn to publish and use Terraform modules from GitHub:
+- Publishing modules to GitHub
+- Module versioning and releases
+- Using modules from remote sources
+- Module documentation and best practices
 - Module composition and inheritance
-- Variable replacement and defaults
-- Cross-module communication
-- Module versioning
 
-**Exercise**: Build a multi-tier application using composed modules (network, compute, database).
+**Exercise**: Publish a VM module to GitHub and use it in your Terraform configurations.
 
 ### 2. Conditional Creation and For_Each
 **Directory**: `2-Conditional-ForEach/`
@@ -119,7 +120,7 @@ Before starting Day 5, ensure you have:
 
 ## Getting Started
 
-1. **Start with Modules** (`1-Modules-Inheritance/`) - Foundation for everything else
+1. **Start with GitHub Modules** (`Github-Modules/`) - Learn to publish and use modules from GitHub
 2. **Learn Conditionals** (`2-Conditional-ForEach/`) - Essential for dynamic infrastructure
 3. **Master Data Sources** (`3-Data-Sources-Import/`) - Work with existing resources
 4. **Understand State** (`4-State-Management/`) - Critical for production

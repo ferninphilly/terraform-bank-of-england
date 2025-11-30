@@ -1,0 +1,76 @@
+# Example terraform.tfvars file
+# Copy this file to terraform.tfvars and update with your values
+
+environment  = "dev"
+location     = "eastus"
+project_name = "myproject"
+
+# Virtual Network Configuration
+vnet_address_space = ["10.0.0.0/16"]
+
+# Subnet Configuration using map (for_each)
+subnets = {
+  "frontend" = {
+    address_prefix    = "10.0.1.0/24"
+    service_endpoints = ["Microsoft.Storage"]
+    nsg_enabled       = true
+  }
+  "backend" = {
+    address_prefix    = "10.0.2.0/24"
+    service_endpoints = ["Microsoft.Sql"]
+    nsg_enabled       = true
+  }
+  "database" = {
+    address_prefix    = "10.0.3.0/24"
+    service_endpoints = []
+    nsg_enabled       = false
+  }
+}
+
+# Allowed SSH IPs (restrict in production!)
+allowed_ssh_ips = ["*"]  # WARNING: Allows from anywhere
+
+# Network Security Group Rules using map (for_each in dynamic block)
+nsg_rules = {
+  "AllowSSH" = {
+    priority                   = 1001
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_range     = "22"
+    source_address_prefix      = "*"
+    destination_address_prefix = "*"
+    description                = "Allow SSH from anywhere"
+  }
+  "AllowHTTP" = {
+    priority                   = 1002
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_range     = "80"
+    source_address_prefix      = "*"
+    destination_address_prefix = "*"
+    description                = "Allow HTTP from internet"
+  }
+  "AllowHTTPS" = {
+    priority                   = 1003
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_range     = "443"
+    source_address_prefix      = "*"
+    destination_address_prefix = "*"
+    description                = "Allow HTTPS from internet"
+  }
+}
+
+# Common Tags
+common_tags = {
+  ManagedBy = "Terraform"
+  Project   = "NetworkInfrastructure"
+  Owner     = "DevOps Team"
+}
+

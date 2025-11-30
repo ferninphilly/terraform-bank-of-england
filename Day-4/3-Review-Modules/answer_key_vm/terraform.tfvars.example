@@ -1,0 +1,26 @@
+# Example terraform.tfvars file
+# Copy this file to terraform.tfvars and update with your values
+
+resource_group_name = "vm-module-rg"
+location           = "eastus"
+name_prefix        = "myvm"
+
+# VM Configuration
+vm_size            = "Standard_B1s"  # Options: Standard_B1s, Standard_B2s, Standard_D2s_v3, etc.
+admin_username     = "azureuser"
+ssh_public_key_path = "~/.ssh/id_rsa.pub"
+
+# Alert Configuration
+enable_alerts          = true
+alert_email            = "admin@example.com"  # Set your email here
+cpu_threshold_percent  = 80   # Alert when CPU > 80%
+memory_threshold_percent = 85  # Alert when memory usage > 85%
+
+# Tags
+tags = {
+  Environment = "dev"
+  Project     = "VM-Module-Example"
+  ManagedBy   = "Terraform"
+  Owner       = "DevOps Team"
+}
+

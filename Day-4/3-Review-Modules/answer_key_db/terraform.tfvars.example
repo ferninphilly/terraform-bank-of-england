@@ -1,0 +1,24 @@
+# Example terraform.tfvars file
+# Copy this file to terraform.tfvars and update with your values
+
+resource_group_name = "banking-mssql-rg"
+location           = "eastus"
+
+# SQL Server Configuration
+sql_server_name  = "banking-sql-server-12345"  # Must be globally unique!
+sql_admin_login  = "sqladmin"
+sql_admin_password = "YourSecurePassword123!"  # Set a strong password
+sql_version       = "12.0"  # SQL Server 2014
+
+# SQL Scripts
+run_sql_scripts   = true
+
+# Tags
+tags = {
+  Environment = "production"
+  Project     = "Core-Banking-System"
+  ManagedBy   = "Terraform"
+  Owner       = "IT Operations"
+  Compliance  = "PCI-DSS"
+}
+

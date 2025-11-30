@@ -1,0 +1,13 @@
+# Example terraform.tfvars file
+# Copy this file to terraform.tfvars and update with your values
+
+resource_group_name = "myproject-rg"
+location           = "eastus"
+
+tags = {
+  Environment = "dev"
+  Project     = "MyProject"
+  ManagedBy   = "Terraform"
+  Owner       = "DevOps Team"
+}
+

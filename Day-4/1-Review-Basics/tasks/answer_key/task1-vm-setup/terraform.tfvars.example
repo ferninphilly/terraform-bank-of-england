@@ -1,0 +1,19 @@
+# Example terraform.tfvars file
+# Copy this file to terraform.tfvars and update with your values
+# terraform.tfvars is automatically loaded by Terraform
+
+resource_group_name = "my-vm-rg"
+location           = "eastus"
+name_prefix        = "myvm"
+environment        = "dev"
+vm_size            = "Standard_B1s"
+admin_username     = "azureuser"
+ssh_public_key_path = "~/.ssh/id_rsa.pub"
+
+tags = {
+  Environment = "dev"
+  Project     = "Terraform-VM-Review"
+  ManagedBy   = "Terraform"
+  Owner       = "YourName"
+}
+

@@ -1,0 +1,75 @@
+# Example terraform.tfvars file
+# Copy this file to terraform.tfvars and update with your values
+
+resource_group_name = "github-module-test-rg"
+location           = "eastus"
+name_prefix        = "testvm"
+
+# VM Configuration
+vm_size            = "Standard_B2s"
+admin_username     = "azureuser"
+ssh_public_key_path = "~/.ssh/id_rsa.pub"
+
+# Network Configuration
+vnet_address_space    = ["10.0.0.0/16"]
+subnet_address_prefix = "10.0.1.0/24"
+
+# Public IP Configuration
+public_ip_allocation_method = "Static"  # Options: Static, Dynamic
+public_ip_sku              = "Basic"   # Options: Basic, Standard
+
+# Private IP Configuration
+# private_ip_address_allocation = "Dynamic"  # Options: Static, Dynamic
+# private_ip_address           = null        # Required if allocation is Static (e.g., "10.0.1.100")
+
+# OS Disk Configuration
+os_disk_caching              = "ReadWrite"    # Options: None, ReadOnly, ReadWrite
+os_disk_storage_account_type = "Standard_LRS" # Options: Standard_LRS, Premium_LRS, StandardSSD_LRS, UltraSSD_LRS, Premium_ZRS, StandardSSD_ZRS
+
+# Source Image Configuration (optional - uses Ubuntu 22.04 LTS by default)
+# source_image_reference = {
+#   publisher = "Canonical"
+#   offer     = "0001-com-ubuntu-server-jammy"
+#   sku       = "22_04-lts-gen2"
+#   version   = "latest"
+# }
+
+# Authentication Configuration
+# disable_password_authentication = true  # Default: true (SSH keys only)
+
+# Custom NSG Rules (optional - uses defaults if not provided)
+# Default rules allow SSH (22) and HTTP (80)
+# Uncomment and customize as needed:
+# nsg_rules = [
+#   {
+#     name                       = "AllowSSH"
+#     priority                   = 1001
+#     direction                  = "Inbound"
+#     access                     = "Allow"
+#     protocol                   = "Tcp"
+#     source_port_range          = "*"
+#     destination_port_range     = "22"
+#     source_address_prefix      = "*"  # Restrict to specific IP range for security
+#     destination_address_prefix = "*"
+#   },
+#   {
+#     name                       = "AllowHTTPS"
+#     priority                   = 1002
+#     direction                  = "Inbound"
+#     access                     = "Allow"
+#     protocol                   = "Tcp"
+#     source_port_range          = "*"
+#     destination_port_range     = "443"
+#     source_address_prefix      = "*"
+#     destination_address_prefix = "*"
+#   }
+# ]
+
+# Tags
+tags = {
+  Environment = "test"
+  ManagedBy   = "Terraform"
+  Module      = "GitHub"
+  Project     = "Module-Testing"
+}
+
